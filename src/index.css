@@ -1,0 +1,418 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', monospace;
+}
+
+.font-rajdhani {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, rgba(0, 245, 255, 0.8) 0%, rgba(0, 245, 255, 0.3) 50%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+  transition: transform 0.1s ease;
+}
+
+.custom-cursor::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: #00f5ff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px #00f5ff;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: rgba(0, 245, 255, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.3s ease;
+}
+
+/* Interactive Dots */
+.interactive-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(0, 245, 255, 0.6);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.interactive-dot.repelled {
+  transform: scale(1.5);
+  background: rgba(255, 107, 53, 0.8);
+  box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+}
+
+/* Sophia Robot Styles */
+.sophia-container {
+  position: fixed;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.sophia-robot {
+  width: 200px;
+  height: 300px;
+  cursor: pointer;
+  pointer-events: all;
+  transition: all 0.3s ease;
+}
+
+.sophia-robot:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5));
+}
+
+.sophia-head {
+  width: 80px;
+  height: 100px;
+  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+  border-radius: 40px 40px 35px 35px;
+  position: relative;
+  margin: 0 auto 10px;
+  border: 2px solid rgba(0, 245, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.sophia-eyes {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+}
+
+.sophia-eye {
+  width: 8px;
+  height: 8px;
+  background: #00f5ff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00f5ff;
+  animation: blink 3s infinite;
+}
+
+.sophia-mouth {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: rgba(0, 245, 255, 0.7);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.sophia-body {
+  width: 60px;
+  height: 120px;
+  background: linear-gradient(145deg, #333, #222);
+  border-radius: 30px;
+  margin: 0 auto;
+  position: relative;
+  border: 2px solid rgba(0, 245, 255, 0.2);
+}
+
+.sophia-arms {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+}
+
+.sophia-arm {
+  position: absolute;
+  width: 30px;
+  height: 4px;
+  background: linear-gradient(90deg, #333, #222);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.sophia-arm.left {
+  left: -25px;
+  transform-origin: right center;
+  animation: wave-left 4s ease-in-out infinite;
+}
+
+.sophia-arm.right {
+  right: -25px;
+  transform-origin: left center;
+  animation: wave-right 4s ease-in-out infinite 2s;
+}
+
+.sophia-legs {
+  width: 40px;
+  height: 60px;
+  background: linear-gradient(145deg, #333, #222);
+  border-radius: 20px;
+  margin: 5px auto 0;
+  border: 2px solid rgba(0, 245, 255, 0.2);
+}
+
+/* Scroll-triggered Gears */
+.scroll-gear {
+  position: absolute;
+  opacity: 0.1;
+  transition: all 0.5s ease;
+  pointer-events: none;
+}
+
+.scroll-gear.visible {
+  opacity: 0.3;
+  transform: scale(1.2);
+}
+
+/* Enhanced Animations */
+@keyframes blink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.3; }
+}
+
+@keyframes wave-left {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  75% { transform: rotate(10deg); }
+}
+
+@keyframes wave-right {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  75% { transform: rotate(-10deg); }
+}
+
+@keyframes circuit-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes data-flow {
+  0% { transform: translateX(-100px); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100px); opacity: 0; }
+}
+
+/* Circuit Lines */
+.circuit-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00f5ff, transparent);
+  animation: circuit-pulse 2s ease-in-out infinite;
+}
+
+.data-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #ff6b35;
+  border-radius: 50%;
+  animation: data-flow 3s linear infinite;
+  box-shadow: 0 0 8px #ff6b35;
+}
+
+/* Holographic Effects */
+.hologram-text {
+  background: linear-gradient(45deg, #00f5ff, #7c3aed, #ff6b35);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: hologram-shift 3s ease-in-out infinite;
+}
+
+@keyframes hologram-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Matrix Rain Effect */
+.matrix-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.1;
+}
+
+.matrix-column {
+  position: absolute;
+  top: -100px;
+  font-family: 'Orbitron', monospace;
+  font-size: 12px;
+  color: #00f5ff;
+  animation: matrix-fall linear infinite;
+}
+
+@keyframes matrix-fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+/* Existing animations with enhancements */
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
+  }
+  
+  .box-glow {
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.3), 0 0 40px rgba(0, 245, 255, 0.1);
+  }
+  
+  .border-glow {
+    border: 1px solid rgba(0, 245, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+  }
+}
+
+.gear-animation {
+  animation: rotate 20s linear infinite;
+}
+
+.gear-animation-reverse {
+  animation: rotate-reverse 15s linear infinite;
+}
+
+.gear-scroll {
+  animation: rotate-scroll 10s linear infinite;
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotate-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes rotate-scroll {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1.1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 5px rgba(0, 245, 255, 0.5); }
+  100% { box-shadow: 0 0 20px rgba(0, 245, 255, 0.8), 0 0 30px rgba(0, 245, 255, 0.4); }
+}
+
+.slide-in-left {
+  animation: slideInLeft 1s ease-out forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 1s ease-out forwards;
+}
+
+.slide-in-up {
+  animation: slideInUp 1s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sophia-container {
+    right: 20px;
+    transform: translateY(-50%) scale(0.7);
+  }
+  
+  body {
+    cursor: auto;
+  }
+  
+  .custom-cursor {
+    display: none;
+  }
+}
